@@ -1,0 +1,11 @@
+[Unit]
+Description=api-tools
+After=network.target
+
+[Service]
+User=USER
+WorkingDirectory=/home/USER/api-tools
+ExecStart=/home/USER/api-tools/.venv/bin/gunicorn -c /home/USER/api-tools/gunicorn.conf -b 127.0.0.1:5008 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
