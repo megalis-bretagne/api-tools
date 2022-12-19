@@ -37,4 +37,6 @@ chown USER /var/log/api-tools
 sudo systemctl daemon-reload
 sudo systemctl enable api-tools
 sudo systemctl start api-tools
+sudo cp nginx.conf /etc/nginx/applications/api-tools.conf
+sudo systemctl reload nginx
 ```
