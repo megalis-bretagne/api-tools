@@ -14,9 +14,9 @@ app.wsgi_app = ProxyFix(
 url = os.environ.get("DATABASE_URL")  # gets variables from environment
 connection = psycopg2.connect(url)
 
-@app.get("/api/statistiques/statistiques")
-def getStatistiques():
-    STATS = ("select * from pastell.stats_historique limit 5;")
+@app.get("/api/statistiques/<string:table>")
+def getStatistiques(table):
+    STATS = (f"select * from pastell.{table};")
     with connection:
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(STATS)
