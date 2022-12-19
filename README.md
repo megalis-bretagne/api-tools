@@ -11,7 +11,7 @@ gunicorn --bind 0.0.0.0:5008 wsgi:app
 git clone https:github.com/spelhate/api-tools
 cd api-tools
 python3 -m venv .venv
-pip install
+pip install -r requirements.txt
 ```
 
 ## Configuration
