@@ -11,6 +11,7 @@ gunicorn --bind 0.0.0.0:5008 wsgi:app
 git clone https:github.com/spelhate/api-tools
 cd api-tools
 python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -26,7 +27,7 @@ Editer ensuite ce fichier
 
 ## production mode
 
-`sudo cp tools-api.service /etc/systemd/system/tools-api.service`
+`sudo cp api-tools.service /etc/systemd/system/api-tools.service`
 
 Then edit this file and set the correct USER and PORT
 
