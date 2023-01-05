@@ -1,4 +1,4 @@
-import os
+import os, json
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
@@ -31,7 +31,10 @@ class Statistiques(Resource):
         with connection:
             with connection.cursor(cursor_factory=RealDictCursor) as cursor:
                 cursor.execute(STATS)
-                results = cursor.fetchall();
+                results = cursor.fetchall()
+                jsonObj = json.dumps(results, indent=1, sort_keys=True, default=str)
+                json.loads(jsonObj)
+
         return results, 200
 
 if __name__ == "__main__":
