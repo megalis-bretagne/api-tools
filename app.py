@@ -6,6 +6,7 @@ from flask_restx import Resource, Api, fields
 from datetime import date
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
+from sqlalchemy import inspect, func
 
 
 class DateEncoder(json.JSONEncoder):
@@ -61,12 +62,42 @@ statistiques = api.namespace('statistiques', description='API Statistiques')
 class Statistiques(Resource):
     @api.response(200, 'Success', model_publication_opendata)
     def get(self):
-        STATS = ("select * from pastell.publication_open_data LIMIT 100;")
-        with db.engine.connect() as con:
-            query = con.execute(STATS)
+        #STATS = ("select * from pastell.publication_open_data LIMIT 100;")
+        #with db.engine.connect() as con:
+        #    query = con.execute(STATS)
+        #return sql_to_json(query)
+        #result = PublicationOpenData.query.all()
+        #result = db.session.query(PublicationOpenData).all()
+        #result = PublicationOpenData.query.limit(100).all()
+        page = 1
+        size = 5
+        result = PublicationOpenData.query.paginate(page=page, per_page=size)
+        data = {'response':'success','total': result.total, 'page': page, 'size': size, 'items': json.loads(json.dumps([row2dict(r) for r in result]))}
+        return jsonify(**data)
 
-        return sql_to_json(query)
+def row2dict(row,label="null"):
+    d = {}
+    try:
+        inspect(row)
+        if(row.__table__.columns):
+            for column in row.__table__.columns:
+                nonecheck = str(getattr(row, column.name))
+                if nonecheck == 'None':
+                    nonecheck = ''
+                d[column.name] = nonecheck
+    except NoInspectionAvailable:
+        d[label]=row
+    return d
 
+def dict_builder(result):
+    dlist = []
+    for r in result:
+        d={}
+        res = r._asdict()
+        for key in res:
+            d.update(row2dict(res[key],key))
+        dlist.append(d)
+    return dlist
 
 def sql_to_json(query):
     rows = query.fetchall()
