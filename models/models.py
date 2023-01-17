@@ -34,3 +34,28 @@ class PublicationOpenData(db.Model):
             'toto': fields.String
         }
 
+class Organigramme(db.Model):
+    __tablename__ = 'organigramme'
+    __table_args__ = {"schema":"pastell"}
+    id_e = db.Column(db.String(10), primary_key=True)
+    level = db.Column(db.String(2))
+    entite_mere = db.Column(db.String(10))
+    path = db.Column(db.String(512))
+    code = db.Column(db.String(256))
+    siren = db.Column(db.String(12))
+    date_inscription = db.Column(db.String(25))
+    is_active = db.Column(db.String(2))
+
+    @property
+    # USed by api flask_restx
+    def model(self):
+        return {
+            'id_e': fields.String,
+            'level': fields.String,
+            'entite_mere': fields.String,
+            'path': fields.String,
+            'code': fields.String,
+            'date_inscription': fields.String,
+            'is_active': fields.String
+        }
+

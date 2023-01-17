@@ -11,12 +11,12 @@ arguments_publication_open_data.add_argument('pageIndex', type=int, help='index 
 arguments_publication_open_data.add_argument('pageSize', type=int, help='taille de la page', default=100)
 
 @statistiques.route("/publication_open_data")
-class Statistiques(Resource):
+class Publication(Resource):
     @statistiques.expect(arguments_publication_open_data)
     @statistiques.response(200, 'Success', statistiques.model('publication_opendata', PublicationOpenData().model))
+    #@oidc.accept_token(require_token=True, scopes_required=['openid'])
     def get(self):
         args = arguments_publication_open_data.parse_args()
-        print (args)
         page = args['pageIndex']
         size = args['pageSize']
         result = PublicationOpenData.query.paginate(page=page, per_page=size)
