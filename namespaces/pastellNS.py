@@ -22,7 +22,7 @@ class Organismes(Resource):
         page = args['pageIndex']
         size = args['pageSize']
         if siren:
-            result = Organigramme.query.filter(Organigramme.siren == siren).paginate(page=page, per_page=size)
+            result = Organigramme.query.filter(Organigramme.siren == siren, Organigramme.is_active == '1').paginate(page=page, per_page=size)
         else:
             result = Organigramme.query.paginate(page=page, per_page=size)
         data = {'response':'success','total': result.total, 'page': page, 'size': size, 'items': json.loads(json.dumps([row2dict(r) for r in result]))}
