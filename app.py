@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, request, Blueprint
+from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_restx import Api
 
@@ -13,6 +14,7 @@ from namespaces.pastellNS import pastell
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 api = Api(blueprint, version='0.1', title='Tools Api', description='API PRAE Tools', doc='/docs/')
