@@ -45,6 +45,7 @@ class Organigramme(db.Model):
     siren = db.Column(db.String(12))
     date_inscription = db.Column(db.String(25))
     is_active = db.Column(db.String(2))
+    denomination = db.Column(db.String(256))
 
     @property
     # USed by api flask_restx
@@ -56,6 +57,7 @@ class Organigramme(db.Model):
             'path': fields.String,
             'code': fields.String,
             'date_inscription': fields.String,
-            'is_active': fields.String
+            'is_active': fields.String,
+            'denomination': fields.String
         }
 
